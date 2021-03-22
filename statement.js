@@ -68,8 +68,8 @@ function statement(invoice, plays) {
         totalAmount += thisAmount;
     }
 
-    result += `총액: ${totalAmount/100}원\n`
-    result += `적립포인트: ${volumeCredits}점`
+    result += `총액: ${totalAmount/100}\n`
+    result += `적립 포인트: ${volumeCredits}점`
 
     return result;
 }
