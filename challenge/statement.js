@@ -4,7 +4,7 @@ export function statement(invoice, plays) {
   let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
   for (let performance of invoice.performances) {
-    const play = plays[performance.playID];
+    const play = playFor(performance);
     let thisAmount = amountFor(play, performance);
 
     // 포인트를 적립한다.
@@ -22,6 +22,10 @@ export function statement(invoice, plays) {
   result += `총액: ${format(totalAmount / 100)}\n`;
   result += `적립 포인트: ${volumeCredits}점\n`;
   return result;
+
+  function playFor(performance) {
+    return plays[performance.playID];
+  }
 }
 
 function amountFor(play, performance) {
