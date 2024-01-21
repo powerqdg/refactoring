@@ -19,10 +19,10 @@ export function statement(invoice, plays) {
   }
 
   function totalCredits(performances) {
-    return performances.reduce((sum, p) => sum + volumeCreditsFor(p), 0);
+    return performances.reduce((sum, p) => sum + creditsFor(p), 0);
   }
 
-  function volumeCreditsFor(performance) {
+  function creditsFor(performance) {
     let result = 0;
     // 포인트를 적립한다.
     result += Math.max(performance.audience - 30, 0);
