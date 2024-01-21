@@ -4,8 +4,6 @@ export function statement(invoice, plays) {
   let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
   for (let performance of invoice.performances) {
-    let thisAmount = amountFor(playFor(performance), performance);
-
     // 포인트를 적립한다.
     volumeCredits += Math.max(performance.audience - 30, 0);
     // 희극 관객 5명마다 추가 포인트를 제공한다.
@@ -13,10 +11,10 @@ export function statement(invoice, plays) {
       volumeCredits += Math.floor(performance.audience / 5);
 
     // 청구 내역을 출력한다.
-    result += `  ${playFor(performance).name}: ${format(thisAmount / 100)} (${
-      performance.audience
-    }석)\n`;
-    totalAmount += thisAmount;
+    result += `  ${playFor(performance).name}: ${format(
+      amountFor(playFor(performance), performance) / 100
+    )} (${performance.audience}석)\n`;
+    totalAmount += amountFor(playFor(performance), performance);
   }
   result += `총액: ${format(totalAmount / 100)}\n`;
   result += `적립 포인트: ${volumeCredits}점\n`;
