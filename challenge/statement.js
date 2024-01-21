@@ -1,15 +1,9 @@
 export function statement(invoice, plays) {
   let totalAmount = 0;
-  let volumeCredits = 0;
+  let volumeCredits = totalCredits(invoice.performances);
   let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
   for (let performance of invoice.performances) {
-    // 포인트를 적립한다.
-    volumeCredits += Math.max(performance.audience - 30, 0);
-    // 희극 관객 5명마다 추가 포인트를 제공한다.
-    if ('comedy' === playFor(performance).type)
-      volumeCredits += Math.floor(performance.audience / 5);
-
     // 청구 내역을 출력한다.
     result += `  ${playFor(performance).name}: ${usd(
       amountFor(performance) / 100
@@ -22,6 +16,21 @@ export function statement(invoice, plays) {
 
   function playFor(performance) {
     return plays[performance.playID];
+  }
+
+  function totalCredits(performances) {
+    return performances.reduce((sum, p) => sum + volumeCreditsFor(p), 0);
+  }
+
+  function volumeCreditsFor(performance) {
+    let result = 0;
+    // 포인트를 적립한다.
+    result += Math.max(performance.audience - 30, 0);
+    // 희극 관객 5명마다 추가 포인트를 제공한다.
+    if ('comedy' === playFor(performance).type) {
+      result += Math.floor(performance.audience / 5);
+    }
+    return result;
   }
 
   function amountFor(performance) {
