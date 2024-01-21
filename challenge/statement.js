@@ -6,7 +6,7 @@ export function statement(invoice, plays) {
       amountFor(performance) / 100
     )} (${performance.audience}석)\n`;
   }
-  result += `총액: ${usd(totalAmountFor(invoice.performances) / 100)}\n`;
+  result += `총액: ${usd(totalAmount(invoice.performances) / 100)}\n`;
   result += `적립 포인트: ${totalCredits(invoice.performances)}점\n`;
   return result;
 
@@ -14,7 +14,7 @@ export function statement(invoice, plays) {
     return plays[performance.playID];
   }
 
-  function totalAmountFor(performances) {
+  function totalAmount(performances) {
     return performances.reduce((sum, p) => sum + amountFor(p), 0);
   }
   function totalCredits(performances) {
