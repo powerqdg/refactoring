@@ -1,13 +1,11 @@
 export function statement(invoice, plays) {
-  let totalAmount = 0;
+  let totalAmount = totalAmountFor(invoice.performances);
   let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
   for (let performance of invoice.performances) {
-    // 청구 내역을 출력한다.
     result += `  ${playFor(performance).name}: ${usd(
       amountFor(performance) / 100
     )} (${performance.audience}석)\n`;
-    totalAmount += amountFor(performance);
   }
   result += `총액: ${usd(totalAmount / 100)}\n`;
   result += `적립 포인트: ${totalCredits(invoice.performances)}점\n`;
@@ -17,6 +15,9 @@ export function statement(invoice, plays) {
     return plays[performance.playID];
   }
 
+  function totalAmountFor(performances) {
+    return performances.reduce((sum, p) => sum + amountFor(p), 0);
+  }
   function totalCredits(performances) {
     return performances.reduce((sum, p) => sum + creditsFor(p), 0);
   }
