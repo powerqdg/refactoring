@@ -4,17 +4,16 @@ export function statement(invoice, plays) {
   let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
   for (let performance of invoice.performances) {
-    const play = playFor(performance);
-    let thisAmount = amountFor(play, performance);
+    let thisAmount = amountFor(playFor(performance), performance);
 
     // 포인트를 적립한다.
     volumeCredits += Math.max(performance.audience - 30, 0);
     // 희극 관객 5명마다 추가 포인트를 제공한다.
-    if ('comedy' === play.type)
+    if ('comedy' === playFor(performance).type)
       volumeCredits += Math.floor(performance.audience / 5);
 
     // 청구 내역을 출력한다.
-    result += `  ${play.name}: ${format(thisAmount / 100)} (${
+    result += `  ${playFor(performance).name}: ${format(thisAmount / 100)} (${
       performance.audience
     }석)\n`;
     totalAmount += thisAmount;
