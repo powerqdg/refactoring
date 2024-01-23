@@ -57,21 +57,33 @@ class Comedy extends Performance {
   }
 }
 
+class Statement {
+  #customer;
+  #performances;
+  constructor(invoice, plays) {
+    this.#customer = invoice.customer;
+    this.#performances = invoice.performances.map((p) =>
+      Performance.create(p.audience, plays[p.playID])
+    );
+  }
+
+  get customer() {
+    return this.#customer;
+  }
+
+  get performances() {
+    return [...this.#performances];
+  }
+
+  get totalAmount() {
+    return this.#performances.reduce((sum, p) => sum + p.amount, 0);
+  }
+
+  get totalCredits() {
+    return this.#performances.reduce((sum, p) => sum + p.credits, 0);
+  }
+}
+
 export function createStatementData(invoice, plays) {
-  let result = {};
-  result.customer = invoice.customer;
-  result.performances = invoice.performances.map((p) =>
-    Performance.create(p.audience, plays[p.playID])
-  );
-  result.totalAmount = totalAmount(result.performances);
-  result.totalCredits = totalCredits(result.performances);
-  return result;
-
-  function totalAmount(performances) {
-    return performances.reduce((sum, p) => sum + p.amount, 0);
-  }
-
-  function totalCredits(performances) {
-    return performances.reduce((sum, p) => sum + p.credits, 0);
-  }
+  return new Statement(invoice, plays);
 }
