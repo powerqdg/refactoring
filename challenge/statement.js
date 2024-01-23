@@ -1,10 +1,10 @@
 import { createStatementData } from './createStatementData.js';
 
-function statement(invoice, plays) {
+export function statement(invoice, plays) {
   return renderPlainText(createStatementData(invoice, plays));
 }
 
-function htmlStatement(invoice, plays) {
+export function htmlStatement(invoice, plays) {
   return renderHTML(createStatementData(invoice, plays));
 }
 
