@@ -14,7 +14,6 @@ class Performance {
         return new Comedy(audience, play);
     }
   }
-
   get play() {
     return this.#play;
   }
